@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsConfig));
 app.use(cookieParser());
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views"); 
+app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
 const dbURI =
@@ -84,4 +84,9 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
 });
