@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, <%= user.email %> !</h1>
+      <div class="game-area">
+        <h1>Guess the Location</h1>
+        <img src="#" alt="Game Image" />
+        <input
+          type="text"
+          id="guessInput"
+          placeholder="Choose a location in the map"
+          disabled="true"
+        />
+        <button id="showMap" onclick="openLocationPicker()">Show Map</button>
+        <button id="submitGuess" onclick="submitLocation()">Submit Guess</button>
+        <div id="locationPicker"></div>
+        <p id="result"></p>
+      </div>
+
+      <div id="map" style="height: 400px"></div>
+
+      <div class="logout-section">
+        <form action="/logout" method="post">
+          <button type="submit">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+</html>
