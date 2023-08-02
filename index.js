@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
+const images = require("./routes/images")
 const port = process.env.PORT || 3000;
 
 const corsConfig = {
@@ -41,6 +42,9 @@ const isAuthenticated = require("./middleware/middleware");
 app.use(authRoutes);
 
 app.get("/", (req, res) => {
+  res.render("home");
+});
+app.get("/login", (req, res) => {
   res.render("login");
 });
 
@@ -49,7 +53,10 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
   const leaderboard = await User.find({ score: { $exists: true } }).sort({
     score: -1,
   });
-  res.render("dashboard", { user: { email } });
+  const user = await User.findOne({ email });
+  console.log(user);
+  var img_url = images[user.level - 1].path;
+  res.render("dashboard", { user: { email } , img_url : img_url});
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
