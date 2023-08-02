@@ -99,3 +99,5 @@ function submitLocation() {
       console.error("Error updating score:", error);
     });
 }
+
+
