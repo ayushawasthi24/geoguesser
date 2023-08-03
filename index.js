@@ -87,7 +87,7 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.redirect("dashoboard");
+    res.redirect("dashboard");
   } catch (error) {
     console.log(error);
   }
