@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
+const images = require("./routes/images")
 const port = process.env.PORT || 3000;
 
 const corsConfig = {
@@ -43,13 +44,19 @@ app.use(authRoutes);
 app.get("/", (req, res) => {
   res.render("login");
 });
+// app.get("/login", (req, res) => {
+  // res.render("login");
+// });
 
 app.get("/dashboard", isAuthenticated, async (req, res) => {
   const { email } = req.user;
   const leaderboard = await User.find({ score: { $exists: true } }).sort({
     score: -1,
   });
-  res.render("dashboard", { user: { email } });
+  const user = await User.findOne({ email });
+  console.log(user);
+  var img_url = images[user.level - 1].path;
+  res.render("dashboard", { user: { email } , img_url : img_url});
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
@@ -80,7 +87,7 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.redirect("dashoboard");
+    res.redirect("dashboard");
   } catch (error) {
     console.log(error);
   }
