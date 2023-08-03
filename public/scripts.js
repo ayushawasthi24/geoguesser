@@ -34,7 +34,7 @@ const actualLocation = {
   lng: 75.92348630892366,
 };
 function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; 
+  const R = 6371;
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
   const a =
@@ -68,36 +68,35 @@ function openLocationPicker() {
   });
 }
 
-function submitLocation() {
+function submitLocation(actualLat, actualLong) {
+  console.log(actualLat, actualLong);
+  console.log(typeof(actualLat));
   const locationInput = document.getElementById("guessInput");
-  lat = parseFloat(locationInput.value.split(",")[0].trim());
-  lng = parseFloat(locationInput.value.split(",")[1].trim());
-  const distanceInKm = calculateDistance(
-    actualLocation.lat,
-    actualLocation.lng,
-    lat,
-    lng
-  );
+  coord = locationInput.innerHTML;
+  console.log(coord);
+  lat = parseFloat(coord.split(",")[0].trim());
+  lng = parseFloat(coord.split(",")[1].trim());
+  const distanceInKm = calculateDistance(actualLat, actualLong, lat, lng);
   const maxScore = 100;
   const minDistance = 0;
-  const maxDistance = 0.15; 
-  const score = Math.max(
+  const maxDistance = 0.25;
+  let score = Math.max(
     maxScore -
       (distanceInKm - minDistance) *
         ((maxScore - 1) / (maxDistance - minDistance)),
     0
   );
+  score = Math.round(score);
   console.log(score);
+  alert("You scored " + score + " points.");
   fetch("/update-score", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ score: score }),
-  })
-    .catch((error) => {
-      console.error("Error updating score:", error);
-    });
+  }).catch((error) => {
+    console.error("Error updating score:", error);
+  });
+  window.location.reload();
 }
-
-

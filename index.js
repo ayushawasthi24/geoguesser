@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
-const images = require("./routes/images")
+const images = require("./routes/images");
 const port = process.env.PORT || 3000;
 
 const corsConfig = {
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   res.render("login");
 });
 // app.get("/login", (req, res) => {
-  // res.render("login");
+// res.render("login");
 // });
 
 app.get("/dashboard", isAuthenticated, async (req, res) => {
@@ -56,7 +56,14 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ email });
   console.log(user);
   var img_url = images[user.level - 1].path;
-  res.render("dashboard", { user: { email } , img_url : img_url});
+  var lat = images[user.level - 1].long;
+  var long = images[user.level - 1].lat;
+  res.render("dashboard", {
+    user: { email },
+    img_url: img_url,
+    lat: lat,
+    long: long,
+  });
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
