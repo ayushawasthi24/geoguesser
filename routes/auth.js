@@ -8,6 +8,25 @@ const router = express.Router();
 
 const User = require("../models/User");
 
+const loginUser = async (email, password) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("User not found.");
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    throw new Error("Invalid password.");
+  }
+
+  const token = jwt.sign({ email: user.email }, "your_secret_key_here", {
+    expiresIn: "1h",
+  });
+  return token;
+};
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -21,7 +40,10 @@ router.post("/register", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    res.redirect("login");
+    const token = await loginUser(email, password);
+
+    res.cookie("token", token, { httpOnly: true });
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("Error during registration:", error);
     res.redirect("/register");
@@ -32,25 +54,13 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const token = await loginUser(email, password);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password." });
-    }
-    const token = jwt.sign({ email: user.email }, "your_secret_key_here", {
-      expiresIn: "1h",
-    });
     res.cookie("token", token, { httpOnly: true });
-    res.redirect("dashboard");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("Error during login:", error);
-    res.redirect('login');
+    res.redirect("/login");
   }
 });
 
