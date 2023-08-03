@@ -61,7 +61,7 @@ function openLocationPicker() {
   marker = L.marker([0, 0]).addTo(map);
   map.on("click", (event) => {
     const locationInput = document.getElementById("guessInput");
-    locationInput.value = event.latlng.lat + ", " + event.latlng.lng;
+    locationInput.innerHTML = event.latlng.lat + ", " + event.latlng.lng;
 
     marker.setLatLng(event.latlng);
     locationPickerDiv.style.display = "none";
