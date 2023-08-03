@@ -19,8 +19,7 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
-const dbURI =
-  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority"; // Replace with your MongoDB URL and database name
+const dbURI =  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority"
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -82,6 +81,8 @@ app.get("/leaderboard", isAuthenticated, async (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
+
+
 
 app.post("/update-score", isAuthenticated, async (req, res) => {
   try {
