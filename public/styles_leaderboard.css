@@ -41,13 +41,13 @@ div.rows:nth-child(3){
 }
 
 @media only screen and (max-width: 500px){
-    html{
+    html, body{
       font-size: 12px;
     }
 }
 
 @media only screen and (max-width: 380px){
-    html{
+    html, body{
       font-size: 9px;
     }
 }
