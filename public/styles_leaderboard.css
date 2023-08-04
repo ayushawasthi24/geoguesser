@@ -42,12 +42,12 @@ div.rows:nth-child(3){
 
 @media only screen and (max-width: 500px){
     html, body{
-      font-size: 12px;
+      font-size: 13px;
     }
 }
 
-@media only screen and (max-width: 380px){
+@media only screen and (max-width: 420px){
     html, body{
-      font-size: 9px;
+      font-size: 11px;
     }
 }
