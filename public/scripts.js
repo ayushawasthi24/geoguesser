@@ -95,8 +95,11 @@ function submitLocation(actualLat, actualLong) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ score: score }),
+    
+  }).then((response)=>{
+    window.location.reload()
   }).catch((error) => {
     console.error("Error updating score:", error);
   });
-  window.location.reload();
+  
 }

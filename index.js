@@ -54,15 +54,22 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
   });
   const user = await User.findOne({ email });
   console.log(user);
-  var img_url = images[user.level - 1].path;
-  var lat = images[user.level - 1].long;
-  var long = images[user.level - 1].lat;
-  res.render("dashboard", {
-    user: { email },
-    img_url: img_url,
-    lat: lat,
-    long: long,
-  });
+  
+  if(user.level===17){
+    res.render("leaderboard", { leaderboard });
+  }
+  else{
+    var img_url = images[user.level - 1].path;
+    var lat = images[user.level - 1].long;
+    var long = images[user.level - 1].lat;
+    res.render("dashboard", {
+      user: { email },
+      img_url: img_url,
+      lat: lat,
+      long: long,
+    });
+  }
+  
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
@@ -91,11 +98,12 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
     const user = await User.findOne({ email });
     user.score += Math.round(score);
     user.level += 1;
+    user.currentImage = JSON.stringify(images[user.level - 1]);
     await user.save();
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.redirect("dashboard");
+    res.redirect('/dashboard')
   } catch (error) {
     console.log(error);
   }
