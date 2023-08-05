@@ -57,9 +57,6 @@ function openLocationPicker() {
   locationPickerDiv.style.display = "block";
   map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
   // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
-  // L.tileLayer(
-  //   "https://www.google.com/maps/embed/v1/streetview?key=AIzaSyCSIF4QGuWX4qT6JWKn59jtm0CNdJZ-z9E&q=Eiffel+Tower,Paris+France"
-  // ).addTo(map);
   L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
     maxZoom: 20,
     subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -86,7 +83,7 @@ function submitLocation(actualLat, actualLong) {
   const distanceInKm = calculateDistance(actualLat, actualLong, lat, lng);
   const maxScore = 100;
   const minDistance = 0;
-  const maxDistance = 0.25;
+  const maxDistance = 0.5;
   let score = Math.max(
     maxScore -
       (distanceInKm - minDistance) *
