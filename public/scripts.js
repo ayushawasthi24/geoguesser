@@ -29,10 +29,6 @@ function initMap() {
     map.setCenter(place.geometry.location);
   });
 }
-const actualLocation = {
-  lat: 22.52861447947698,
-  lng: 75.92348630892366,
-};
 function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = deg2rad(lat2 - lat1);
@@ -52,15 +48,65 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
+map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
+
+var streetLayer = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
+
+var satelliteLayer = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
+
 function openLocationPicker() {
   const locationPickerDiv = document.getElementById("locationPicker");
   locationPickerDiv.style.display = "block";
-  map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
-  // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
-  L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
-    maxZoom: 20,
-    subdomains: ["mt0", "mt1", "mt2", "mt3"],
-  }).addTo(map);
+  // map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
+  // // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  // L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+  //   maxZoom: 20,
+  //   subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  // }).addTo(map);
+  if (map.hasLayer(satelliteLayer)) {
+    map.removeLayer(satelliteLayer);
+    streetLayer.addTo(map);
+  } else {
+    streetLayer.addTo(map);
+  }
+
+  marker = L.marker([0, 0]).addTo(map);
+  map.on("click", (event) => {
+    const locationInput = document.getElementById("guessInput");
+    locationInput.innerHTML = event.latlng.lat + ", " + event.latlng.lng;
+
+    marker.setLatLng(event.latlng);
+    locationPickerDiv.style.display = "none";
+  });
+}
+function openLocationPicker2() {
+  const locationPickerDiv = document.getElementById("locationPicker");
+  locationPickerDiv.style.display = "block";
+  // map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
+  // // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  // L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
+  //   maxZoom: 20,
+  //   subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  // }).addTo(map);
+
+  if (map.hasLayer(streetLayer)) {
+    map.removeLayer(streetLayer);
+    satelliteLayer.addTo(map);
+  } else {
+    satelliteLayer.addTo(map);
+  }
 
   marker = L.marker([0, 0]).addTo(map);
   map.on("click", (event) => {
