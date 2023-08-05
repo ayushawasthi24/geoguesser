@@ -138,7 +138,10 @@ function submitLocation(actualLat, actualLong) {
   );
   score = Math.round(score);
   console.log(score);
-  alert("You scored " + score + " points.");
+  // sendNotification();
+  // alert("You scored " + score + " points.");
+  if (score > 0) sendNotification("Congrats", score);
+  else sendNotification("OOPS", 0);
   fetch("/update-score", {
     method: "POST",
     headers: {
@@ -148,5 +151,38 @@ function submitLocation(actualLat, actualLong) {
   }).catch((error) => {
     console.error("Error updating score:", error);
   });
-  window.location.reload();
+  setTimeout(function () {
+    window.location.reload();
+  }, 3000);
+}
+
+function sendNotification(type, points) {
+  document.getElementById("type").innerHTML = type;
+  document.getElementById("points").innerHTML =
+    "You scored " + points + " points!";
+  const toast = document.querySelector(".toast");
+  (closeIcon = document.querySelector(".close")),
+    (progress = document.querySelector(".progress"));
+
+  let timer1, timer2;
+  toast.classList.add("active");
+  progress.classList.add("active");
+
+  timer1 = setTimeout(() => {
+    toast.classList.remove("active");
+  }, 5000); //1s = 1000 milliseconds
+
+  timer2 = setTimeout(() => {
+    progress.classList.remove("active");
+  }, 5300);
+  closeIcon.addEventListener("click", () => {
+    toast.classList.remove("active");
+
+    setTimeout(() => {
+      progress.classList.remove("active");
+    }, 300);
+
+    clearTimeout(timer1);
+    clearTimeout(timer2);
+  });
 }

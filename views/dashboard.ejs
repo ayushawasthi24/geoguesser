@@ -33,6 +33,13 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="bg-violet-500">
     <div class="container items-center mx-auto my-20">
@@ -191,6 +198,7 @@
             </button>
           </div>
         </div>
+
         <div id="locationPicker" class=""></div>
         <p id="result"></p>
       </div>
@@ -200,6 +208,18 @@
         class="flex justify-center items-center m-12 p-7"
         style="height: 800px"
       ></div>
+    </div>
+    <div class="toast">
+      <div class="toast-content">
+        <i class="fas fa-solid fa-check check"></i>
+
+        <div class="message">
+          <span class="text text-1" id="type"></span>
+          <span class="text text-2" id="points"></span>
+        </div>
+      </div>
+      <i class="fa-solid fa-xmark close"></i>
+      <div class="progress"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
