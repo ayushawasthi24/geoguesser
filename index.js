@@ -19,7 +19,8 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
-const dbURI =  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority"
+const dbURI =
+  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority";
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -53,16 +54,20 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
     score: -1,
   });
   const user = await User.findOne({ email });
-  console.log(user);
-  var img_url = images[user.level - 1].path;
-  var lat = images[user.level - 1].long;
-  var long = images[user.level - 1].lat;
-  res.render("dashboard", {
-    user: { email },
-    img_url: img_url,
-    lat: lat,
-    long: long,
-  });
+  // console.log(user);
+  if (images[user.level - 1] != undefined) {
+    var img_url = images[user.level - 1].path;
+    var lat = images[user.level - 1].long;
+    var long = images[user.level - 1].lat;
+    res.render("dashboard", {
+      user: { email },
+      img_url: img_url,
+      lat: lat,
+      long: long,
+    });
+  } else {
+    res.redirect("leaderboard");
+  }
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
@@ -81,8 +86,6 @@ app.get("/leaderboard", isAuthenticated, async (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
-
-
 
 app.post("/update-score", isAuthenticated, async (req, res) => {
   try {
