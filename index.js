@@ -11,7 +11,7 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 function isAuthenticated(req, res, next) {
-  req.user ? next() : res.redirect('/');
+  req.user ? next() : res.redirect('/LoginPage');
 }
 const port = process.env.PORT || 3000;
 
@@ -27,6 +27,7 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
+
 app.get('/auth/google',
   passport.authenticate('google', { scope: [ 'email', 'profile' ] }
 ));
@@ -40,7 +41,10 @@ app.get( '/auth/google/callback',
 
 
 
-const dbURI =  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority"
+
+const dbURI =
+  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority";
+
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -62,11 +66,24 @@ const authRoutes = require("./routes/auth");
 app.use(authRoutes);
 
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("login",{
+    user: req.user
+  });
 });
-// app.get("/login", (req, res) => {
-// res.render("login");
-// });
+
+app.get('/aboutus',(req,res)=>{
+  res.render('aboutus',{
+    user: req.user
+  })
+})
+
+app.get('/LoginPage',(req,res)=>{
+  res.render('LoginPage',{
+    user: req.user
+  })
+}
+)
+
 
 app.get("/dashboard", isAuthenticated, async (req, res) => {
   console.log('user',req.user)
@@ -75,10 +92,11 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
     score: -1,
   });
   const user = await User.findOne({ email });
+
   console.log(user);
   
   if(user.level===17){
-    res.render("leaderboard", { leaderboard });
+    res.render("leaderboard", { leaderboard,user:req.user });
   }
   else{
     var img_url = images[user.level - 1].path;
@@ -90,8 +108,8 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
       lat: lat,
       long: long,
     });
+
   }
-  
 });
 
 app.get("/leaderboard", isAuthenticated, async (req, res) => {
@@ -100,18 +118,16 @@ app.get("/leaderboard", isAuthenticated, async (req, res) => {
       score: -1,
     });
 
-    res.render("leaderboard", { leaderboard });
+    res.render("leaderboard", { leaderboard,user:req.user });
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
-    res.redirect("dashboard");
+    res.redirect("dashboard",{user:req.user});
   }
 });
 
 app.get("/register", (req, res) => {
   res.render("register");
 });
-
-
 
 app.post("/update-score", isAuthenticated, async (req, res) => {
   try {

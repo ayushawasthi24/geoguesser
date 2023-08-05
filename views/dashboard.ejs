@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard | Geoguesser</title>
     <link
       rel="apple-touch-icon"
@@ -32,8 +33,16 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
-  <body class="bg-violet-500">
+  <body class="">
+    <%- include("./navbar"); %>
     <div class="container items-center mx-auto my-20">
       <h1
         style="
@@ -41,54 +50,94 @@
             Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
             sans-serif;
         "
-        class="text-4xl font-bold"
+        class="pt-5 text-xl lg:text-3xl font-bold"
       >
         Welcome, <%= user.email %>!
       </h1>
-      <div class="flex justify-center items-center">
+      <div class="flex justify-center items-center my-2">
         <div class="m-5">
           <button
-            class="bg-yellow-500 flex-item rounded text-l mx-auto p-3 hover:bg-orange-300"
+            class="bg-white flex-item rounded text-l mx-auto p-3 text-black hover:ring-4 hover:ring-white hover:ring-opacity-50 transition-all fade-in-out"
           >
             <a href="/leaderboard" class="no-underline">Leaderboard</a>
           </button>
         </div>
-        <div class="m-5">
-          
-            <button
-              onclick="window.location.href='/auth/logout'"
-              class="bg-red-500 rounded text-l mx-auto p-3 hover:bg-orange-300"
-              type="submit"
-            >
-              Logout
-            </button>
-          
-        </div>
+       
       </div>
-      <div class="game-area mt-2">
-        <h1 class="text-4xl font-bold">Guess the Location</h1>
+      <div class="game-area mt-2 flex flex-col items-center justify-center">
+        <h1 class="text-xl lg:text-4xl font-bold mb-5">Guess the Location</h1>
         <div
-          class="flex justify-center items-center bg-indigo-300 m-2 p-2 rounded"
+          class="flex justify-center items-center bg-white m-2 px-2"
         >
           <img
-            class="m-5 object-contain h-100 w-100"
+            class="m-2 object-contain h-100 w-100"
             src="Images\<%= img_url %>"
             id="questionImage"
             alt="Game Image"
           />
         </div>
-        <div class="flex justify-center items-center">
-          <div id="guessInput" class="bg-gray-100 py-3 text-2xl px-14 rounded">
+        <div class="flex justify-center items-center mt-6">
+          <div id="guessInput" class="bg-gray-100 py-3 text-md lg:text-2xl lg:px-14 px-3 rounded">
             Tap a location in the map to select...
           </div>
         </div>
 
-        <div class="grid grid-cols-2">
+        <div class="grid lg:grid-cols-3">
           <div class="mx-auto">
             <button
-              class="my-6 text-xl"
+              class=" bg-gradient-to-tr from-gray-200 to-gray-400 hover:ring-4 hover:ring-white hover:ring-opacity-50 transition-all fade-in-out text-black my-6 p-5 rounded-md max-w-[300px] mx-5 text-md lg:text-xl"
               id="showMap"
               onclick="openLocationPicker()"
+            >
+              <span class="my-auto !w-full " style="font-weight: bold ">
+                <svg
+                  class="my-3 mx-auto"
+                  fill="#ffffff"
+                  height="32px"
+                  width="32px"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 297.00 297.00"
+                  xml:space="preserve"
+                  stroke="#ffffff"
+                  stroke-width="0.00297"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <g>
+                      <path
+                        d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645 c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645 C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892 c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z"
+                      ></path>
+                      <path
+                        d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614 c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901 c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104 C179.265,127.948,165.464,141.901,148.5,141.901z"
+                      ></path>
+                    </g>
+                  </g>
+                </svg>
+                Show Street View Map
+              </span>
+            </button>
+          </div>
+          <div class="mx-auto my-auto">
+            <button
+              class="my-6 py-auto max-w-[300px] bg-gradient-to-tr from-blue-400 to-blue-600 hover:ring-4 hover:ring-white hover:ring-opacity-50 transition-all fade-in-out text-white p-5 rounded-md mx-5 flex flex-col justify-center items-center text-md lg:text-xl"
+              id=""
+              onclick="submitLocation(<%= lat %>, <%= long %>)"
+            >
+              <div class="text">Submit Guess!</div>
+            </button>
+          </div>
+          <div class="mx-auto">
+            <button
+              class=" bg-gradient-to-tr from-gray-200 to-gray-400 hover:ring-4 hover:ring-white hover:ring-opacity-50 transition-all fade-in-out text-black my-6 p-5 rounded-md max-w-[300px] mx-5 text-md lg:text-xl"
+              id="showMap"
+              onclick="openLocationPicker2()"
             >
               <span class="my-auto" style="font-weight: bold">
                 <svg
@@ -121,35 +170,15 @@
                     </g>
                   </g>
                 </svg>
-                Show Map
+                Show Satellite Map
               </span>
             </button>
           </div>
 
-          <div class="mx-auto my-auto">
-            <button
-              class="my-6 py-auto h-20"
-              id="submitGuess"
-              onclick="submitLocation(<%= lat %>, <%= long %>)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                ></path>
-              </svg>
-              <div class="text">Submit Guess!</div>
-            </button>
-          </div>
+          
         </div>
+        
+
         <div id="locationPicker" class=""></div>
         <p id="result"></p>
       </div>
@@ -159,6 +188,18 @@
         class="flex justify-center items-center m-12 p-7"
         style="height: 800px"
       ></div>
+    </div>
+    <div class="toast">
+      <div class="toast-content">
+        <i class="fas fa-solid fa-check check"></i>
+
+        <div class="message">
+          <span class="text text-1" id="type"></span>
+          <span class="text text-2" id="points"></span>
+        </div>
+      </div>
+      <i class="fa-solid fa-xmark close"></i>
+      <div class="progress"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>

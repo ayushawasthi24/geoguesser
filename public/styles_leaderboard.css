@@ -3,13 +3,15 @@ body{
     flex-direction: column;
     align-items: center;
     font-family: Poppins;
-    background-color: #a44cd3;
+    background-color: rgb(34, 34, 34);
+    color: white;
 }
 
 div.table{
     display: flex;
     flex-direction: column;
     width:30rem;
+    color:black;
 }
 
 #leaderboardBody{
@@ -41,13 +43,45 @@ div.rows:nth-child(3){
 }
 
 @media only screen and (max-width: 500px){
-    html{
-      font-size: 12px;
+    html, body{
+      font-size: 13px;
     }
 }
 
-@media only screen and (max-width: 380px){
-    html{
-      font-size: 9px;
+@media only screen and (max-width: 420px){
+    html, body{
+      font-size: 11px;
     }
 }
+
+.navbar{
+    display:flex;
+    align-items:center;
+    background-color: #fff;
+    color: black;
+    padding: 10px;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1;
+    list-style:none;
+  }
+  
+  .img_logo{
+    width:"20px";
+    height:"20px";
+  
+  }
+  
+  .navbar li{
+    padding: 10px;
+    cursor:pointer;
+  }
+  
+  .component{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-top:100px;
+  }

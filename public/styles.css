@@ -2,6 +2,8 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
+  background-color: rgb(34, 34, 34);
+  color:white;
   padding: 0;
 }
 
@@ -37,8 +39,8 @@ input[type="text"] {
   box-shadow: 0px 0px 0px 0px #a29bfe;
 }
 
- #submitGuess {
-  background-color: #98FB98;
+#submitGuess {
+  background-color: #98fb98;
   font-weight: bold;
   color: black;
   width: 225px;
@@ -49,46 +51,153 @@ input[type="text"] {
   transition: all 0.6s ease;
 }
 
-#guessInput{
-  color:black;
+#guessInput {
+  color: black;
 }
 
-#submitGuess:hover {
-  background-color: #40ce40;
-  cursor: pointer;
-}
 
-#submitGuess svg {
-  width: 1.6em;
-  margin: -0.2em 0.8em 1em;
-  position: absolute;
-  display: flex;
-  transition: all 0.6s ease;
-}
 
-#submitGuess:hover svg {
-  transform: translateX(5px);
-}
+
+
+
 
 .text {
   margin: 0 1.5em;
-  font-size:20px;
+  font-size: 20px;
 }
 
-#showMap {
-  width: 150px;
-  background-color: rgba(111, 23, 101, 0.95);
-  color: white;
-  border: none;
-  padding: 15px 15px;
-  border-radius: 10px;
-}
 
-#showMap:hover {
-  background: rgba(127, 14, 112, 0.8);
-  transition: 0.5s;
-}
+
+
 
 #showMap svg {
+  color: black;
+}
+
+.toast {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+  border-radius: 12px;
+  background: black;
+  color: white !important;
+  padding: 20px 35px 20px 25px;
+  box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transform: translateX(calc(100% + 30px));
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+  z-index: 100000;
+}
+
+.toast.active {
+  transform: translateX(0%);
+}
+
+.toast .toast-content {
+  display: flex;
+  align-items: center;
+}
+
+.toast-content .check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  min-width: 35px;
+  background-color: white;
   color: #fff;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+.toast-content .message {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+.message .text {
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+}
+
+.message .text.text-1 {
+  font-weight: 600;
+  color: white;
+}
+
+.toast .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.toast .close:hover {
+  opacity: 1;
+}
+
+.toast .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+
+}
+
+.toast .progress:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #4070f4;
+}
+
+.progress.active:before {
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  100% {
+    right: 100%;
+  }
+}
+
+
+.navbar{
+  display:flex;
+  align-items:center;
+  background-color: #fff;
+  color: black;
+  padding: 10px;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1;
+  list-style:none;
+}
+
+.img_logo{
+  width:"20px";
+  height:"20px";
+
+}
+
+.navbar li{
+  padding: 10px;
+  cursor:pointer;
+}
+
+.component{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-top:100px;
 }
