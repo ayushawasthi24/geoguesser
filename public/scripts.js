@@ -56,7 +56,14 @@ function openLocationPicker() {
   const locationPickerDiv = document.getElementById("locationPicker");
   locationPickerDiv.style.display = "block";
   map = L.map("map").setView([22.52675360093836, 75.92588544673066], 16);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  // L.tileLayer(
+  //   "https://www.google.com/maps/embed/v1/streetview?key=AIzaSyCSIF4QGuWX4qT6JWKn59jtm0CNdJZ-z9E&q=Eiffel+Tower,Paris+France"
+  // ).addTo(map);
+  L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }).addTo(map);
 
   marker = L.marker([0, 0]).addTo(map);
   map.on("click", (event) => {
@@ -70,7 +77,7 @@ function openLocationPicker() {
 
 function submitLocation(actualLat, actualLong) {
   console.log(actualLat, actualLong);
-  console.log(typeof(actualLat));
+  console.log(typeof actualLat);
   const locationInput = document.getElementById("guessInput");
   coord = locationInput.innerHTML;
   console.log(coord);
