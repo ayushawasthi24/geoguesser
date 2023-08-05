@@ -1,10 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require('express-session');
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const passport = require('passport');
 const app = express();
 const images = require("./routes/images");
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+function isAuthenticated(req, res, next) {
+  req.user ? next() : res.redirect('/');
+}
 const port = process.env.PORT || 3000;
 
 const corsConfig = {
@@ -18,6 +26,19 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+));
+
+app.get( '/auth/google/callback',
+  passport.authenticate( 'google', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/'
+  })
+);
+
+
 
 const dbURI =  "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority"
 mongoose
@@ -36,7 +57,7 @@ mongoose
 const User = require("./models/User");
 
 const authRoutes = require("./routes/auth");
-const isAuthenticated = require("./middleware/middleware");
+
 
 app.use(authRoutes);
 
@@ -48,6 +69,7 @@ app.get("/", (req, res) => {
 // });
 
 app.get("/dashboard", isAuthenticated, async (req, res) => {
+  console.log('user',req.user)
   const { email } = req.user;
   const leaderboard = await User.find({ score: { $exists: true } }).sort({
     score: -1,
@@ -109,7 +131,7 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
-  res.clearCookie("token");
+app.use("/auth/logout", (req, res) => {
+  req.session.destroy();
   res.redirect("/");
 });
