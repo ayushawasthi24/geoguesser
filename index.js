@@ -94,7 +94,11 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ email });
   const image = await Image.findOne({ _id: user.level });
   console.log(image)
-  if(user.level===17){
+  //get the length of data in the table Image
+  const length = await Image.countDocuments();
+
+
+  if(user.level===length+1){
     res.render("leaderboard", { leaderboard,user:req.user });
   }
   else{
@@ -116,7 +120,7 @@ app.get("/leaderboard", isAuthenticated, async (req, res) => {
     const leaderboard = await User.find({ score: { $exists: true } }).sort({
       score: -1,
     });
-
+    console.log(req.user);
     res.render("leaderboard", { leaderboard,user:req.user });
   } catch (error) {
     console.error("Error fetching leaderboard:", error);

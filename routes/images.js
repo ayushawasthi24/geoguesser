@@ -134,34 +134,34 @@ const images = [
       {
         "_id": 23,
         "path": "https://res.cloudinary.com/dqo9rn5lp/image/upload/v1691299710/geoguesserimages-pclub/23.jpg",
-        "long": 22.526821,
-        "lat": 75.9232974
+        "long":22.5241666,
+        "lat":75.9255987
+        
       },
       {
         "_id": 24,
         "path": "https://res.cloudinary.com/dqo9rn5lp/image/upload/v1691299713/geoguesserimages-pclub/24.jpg",
-        "long": 22.526821,
-        "lat": 75.9232974
+        "long":22.5302561,
+        "lat":75.9229349
       },
       {
         "_id": 25,
         "path": "https://res.cloudinary.com/dqo9rn5lp/image/upload/v1691299709/geoguesserimages-pclub/25.jpg",
-        "long": 22.526821,
-        "lat": 75.9232974
+        "long": 22.5200828,
+        "lat": 75.9233487
       },
       {
         "_id": 26,
         "path": "https://res.cloudinary.com/dqo9rn5lp/image/upload/v1691299712/geoguesserimages-pclub/26.jpg",
-        "long": 22.526821,
-        "lat": 75.9232974
+        "long": 22.5291638,
+        "lat": 75.9222952
       },
       {
         "_id": 27,
         "path": "https://res.cloudinary.com/dqo9rn5lp/image/upload/v1691299709/geoguesserimages-pclub/27.jpg",
-        "long": 22.526821,
-        "lat": 75.9232974
+        "long": 22.5216567,
+        "lat": 75.9216575
       }
-
 ]
 
 module.exports = images;

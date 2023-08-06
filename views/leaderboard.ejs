@@ -16,15 +16,30 @@
     <%- include("./navbar"); %>
     <h1 class="mt-40 lg:mt-32 mb-12 text-3xl lg:text-4xl font-bold">Leaderboard 🏆</h1>
     <div class="table ">
-      <div id="leaderboardBody">
-        <% leaderboard.forEach((user, index) => { %>
-        <div class="rows">
+      <div id="leaderboardBody" class="">
+        <% leaderboard.forEach((usr, index) => { %>
+          
+        <% if(user.displayName === usr.name) { %>
+          
+          <div class=" rows !bg-green-500  relative">
+            <div style="margin-left: 1rem;"><%= index + 1 %></div>
+            <div style="font-weight: 600;"><%= usr.name %> (You) </div>
+            <div class="absolute top-[-10px] left-[-10px] bg-red-500 rounded-full px-2 py-1 text-xs text-white " style="margin-right: 1rem;"><%= usr.level %></div>
+            <div  style="margin-right: 1rem;"><%= usr.score %></div>
+          </div>
+       
+        <% } else { %>
+        <div class=" rows relative">
           <div style="margin-left: 1rem;"><%= index + 1 %></div>
-          <div style="font-weight: 600;"><%= user.name %></div>
-          <div style="margin-right: 1rem;"><%= user.score %></div>
+          <div style="font-weight: 600;"><%= usr.name %></div>
+          <div class="absolute top-[-10px] left-[-10px] bg-red-500 rounded-full px-2 py-1 text-xs text-white " style="margin-right: 1rem;"><%= usr.level %></div>
+          <div  style="margin-right: 1rem;"><%= usr.score %></div>
         </div>
+        <% } %>
+
         <% }); %>
       </div>
     </div>
+    
   </body>
 </html>
