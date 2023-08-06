@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="navbar flex justify-between lg:justify-start !z-[10000]">
+        <div>
+            <div id="logo">
+                <img class="img_logo" src="Images/logo.png" width="50px" height="50px" />
+            </div>
+        </div>
+        <div class="flex hidden lg:flex">
+            <li class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out"><a
+                    href="/">Home</a></li>
+            <!-- if user logged in show logout else login -->
+            <% if (user) { %>
+                <li class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out"><a
+                        href="/auth/logout">Logout</a></li>
+                <% } else { %>
+                    <li class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out"><a
+                            href="/LoginPage">Login</a></li>
+                    <% } %>
+                        <li
+                            class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                            <a href="/dashboard">Dash Board</a></li>
+                        <li
+                            class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                            <a href="/leaderboard">Leader Board</a></li>
+                        <li
+                            class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                            <a href="/aboutus">About Us</a></li>
+        </div>
+        <div class="lg:hidden">
+            <div id="bars" class="w-fit h-fit">
+                <img src="Images/bars.png" width="30px" height="30px" />
+            </div>
+        </div>
+        <div id="offCanvasNavbar"
+            class="shadow-2xl h-[400px] w-[200px] absolute left-0 top-0 bg-white left-[-1000px] transition-all fade-in-out flex flex-col  items-center">
+            <h1 class="font-bold text-xl text-center my-5 mx-5">Programming Club IITI</h1>
+            <div>
+
+                <div id="logo">
+                    <img class="img_logo" src="Images/logo.png" width="50px" height="50px" />
+                </div>
+            </div>
+            <div class="flex flex-col  items-center">
+                <li class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out"><a
+                        href="/">Home</a></li>
+                <% if (user) { %>
+                    <li class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out"><a
+                            href="/auth/logout">Logout</a></li>
+                    <% } else { %>
+                        <li
+                            class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                            <a href="/LoginPage">Login</a></li>
+                        <% } %>
+                            <li
+                                class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                                <a href="/dashboard">Dash Board</a></li>
+                            <li
+                                class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                                <a href="/leaderboard">Leader Board</a></li>
+                            <li
+                                class="hover:font-semibold transition-all fade-in-out hover:transition-all hover:fade-in-out">
+                                <a href="/aboutus">About Us</a></li>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        document.addEventListener('click', function (e) {
+            const offCanvasNavbar = document.querySelector('#offCanvasNavbar');
+            const bars = document.querySelector('#bars');
+            //if i click on bars then toggle
+            if (bars.contains(e.target)) {
+                offCanvasNavbar.classList.toggle('left-[-1000px]');
+            } else {
+                //if i click outside the offcanvasnavbar then close it
+                if (!offCanvasNavbar.contains(e.target) && !bars.contains(e.target)) {
+                    offCanvasNavbar.classList.add('left-[-1000px]');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

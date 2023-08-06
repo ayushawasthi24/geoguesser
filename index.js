@@ -1,10 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require('express-session');
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const passport = require('passport');
 const app = express();
 const images = require("./routes/images");
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+function isAuthenticated(req, res, next) {
+  req.user ? next() : res.redirect('/LoginPage');
+}
 const port = process.env.PORT || 3000;
 
 const corsConfig = {
@@ -19,8 +27,24 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+));
+
+app.get( '/auth/google/callback',
+  passport.authenticate( 'google', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/'
+  })
+);
+
+
+
+
 const dbURI =
   "mongodb+srv://Ayush:Ayush2003@cluster0.3gnxxme.mongodb.net/geoguesser?retryWrites=true&w=majority";
+
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -37,25 +61,44 @@ mongoose
 const User = require("./models/User");
 
 const authRoutes = require("./routes/auth");
-const isAuthenticated = require("./middleware/middleware");
+
 
 app.use(authRoutes);
 
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("login",{
+    user: req.user
+  });
 });
-// app.get("/login", (req, res) => {
-// res.render("login");
-// });
+
+app.get('/aboutus',(req,res)=>{
+  res.render('aboutus',{
+    user: req.user
+  })
+})
+
+app.get('/LoginPage',(req,res)=>{
+  res.render('LoginPage',{
+    user: req.user
+  })
+}
+)
+
 
 app.get("/dashboard", isAuthenticated, async (req, res) => {
+  console.log('user',req.user)
   const { email } = req.user;
   const leaderboard = await User.find({ score: { $exists: true } }).sort({
     score: -1,
   });
   const user = await User.findOne({ email });
-  // console.log(user);
-  if (images[user.level - 1] != undefined) {
+
+  console.log(user);
+  
+  if(user.level===17){
+    res.render("leaderboard", { leaderboard,user:req.user });
+  }
+  else{
     var img_url = images[user.level - 1].path;
     var lat = images[user.level - 1].long;
     var long = images[user.level - 1].lat;
@@ -65,8 +108,7 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
       lat: lat,
       long: long,
     });
-  } else {
-    res.redirect("leaderboard");
+
   }
 });
 
@@ -76,10 +118,10 @@ app.get("/leaderboard", isAuthenticated, async (req, res) => {
       score: -1,
     });
 
-    res.render("leaderboard", { leaderboard });
+    res.render("leaderboard", { leaderboard,user:req.user });
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
-    res.redirect("dashboard");
+    res.redirect("dashboard",{user:req.user});
   }
 });
 
@@ -94,17 +136,18 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
     const user = await User.findOne({ email });
     user.score += Math.round(score);
     user.level += 1;
+    user.currentImage = JSON.stringify(images[user.level - 1]);
     await user.save();
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.redirect("dashboard");
+    res.redirect('/dashboard')
   } catch (error) {
     console.log(error);
   }
 });
 
-app.post("/logout", (req, res) => {
-  res.clearCookie("token");
+app.use("/auth/logout", (req, res) => {
+  req.session.destroy();
   res.redirect("/");
 });

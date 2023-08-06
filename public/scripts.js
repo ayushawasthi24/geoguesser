@@ -148,9 +148,13 @@ function submitLocation(actualLat, actualLong) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ score: score }),
+    
+  }).then((response)=>{
+    window.location.reload()
   }).catch((error) => {
     console.error("Error updating score:", error);
   });
+
   setTimeout(function () {
     window.location.reload();
   }, 3000);
@@ -185,4 +189,5 @@ function sendNotification(type, points) {
     clearTimeout(timer1);
     clearTimeout(timer2);
   });
+
 }

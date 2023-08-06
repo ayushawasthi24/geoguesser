@@ -1,12 +1,43 @@
 // routes.js
-
+const axios = require('axios')
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const router = express.Router();
-
+const passport = require('passport');
 const User = require("../models/User");
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const router = express.Router();
+passport.use(new GoogleStrategy({
+  clientID:"372009373284-7rs18ab8cphslchjdacad0q7sh5ubl80.apps.googleusercontent.com",
+  clientSecret:"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",
+  callbackURL: "https://theprogrammingclubgeoguesser.onrender.com/auth/google/callback",
+  passReqToCallback: true,
+},
+async function(request, accessToken, refreshToken, profile, done) {
+  const user = await User.findOne({ email: profile.email })
+  console.log(user)
+  if(user){
+    return done(null,profile);
+  }
+  else{
+    const newUser = new User({ name:profile.displayName, email:profile.email, password:profile.id });
+    await newUser.save();
+    return done(null,profile);
+  }
+}));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+
+
+
 
 const loginUser = async (email, password) => {
   const user = await User.findOne({ email });
@@ -29,6 +60,7 @@ const loginUser = async (email, password) => {
 
 router.post("/register", async (req, res) => {
   try {
+    console.log('register called')
     const { name, email, password } = req.body;
     if (!email.endsWith("@iiti.ac.in")) {
       return res.status(400).json({
@@ -57,7 +89,7 @@ router.post("/login", async (req, res) => {
     const token = await loginUser(email, password);
 
     res.cookie("token", token, { httpOnly: true });
-    res.redirect("/dashboard");
+    res.render("/dashboard");
   } catch (error) {
     console.error("Error during login:", error);
     res.redirect("/login");
