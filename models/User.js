@@ -22,10 +22,10 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 1,
   },
-  currentImage:{
-    type: String,
-    default:JSON.stringify({id:1,path:'22.5191713, 75.9198246.jpg',long:22.5191713,lat:75.9198246}),
-  }
+  currentImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image", // Reference to the "Image" collectio
+  },
 });
 
 const User = mongoose.model("User", userSchema);

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const passport = require('passport');
 const app = express();
-const images = require("./routes/images");
+const Image = require("./models/Image");
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -92,16 +92,15 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
     score: -1,
   });
   const user = await User.findOne({ email });
-
-  console.log(user);
-  
+  const image = await Image.findOne({ _id: user.level });
+  console.log(image)
   if(user.level===17){
     res.render("leaderboard", { leaderboard,user:req.user });
   }
   else{
-    var img_url = images[user.level - 1].path;
-    var lat = images[user.level - 1].long;
-    var long = images[user.level - 1].lat;
+    var img_url = image.path;
+    var lat = image.long;
+    var long = image.lat;
     res.render("dashboard", {
       user: { email },
       img_url: img_url,
@@ -136,7 +135,6 @@ app.post("/update-score", isAuthenticated, async (req, res) => {
     const user = await User.findOne({ email });
     user.score += Math.round(score);
     user.level += 1;
-    user.currentImage = JSON.stringify(images[user.level - 1]);
     await user.save();
     if (!user) {
       return res.status(404).json({ error: "User not found" });

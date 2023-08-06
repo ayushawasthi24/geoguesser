@@ -24,9 +24,16 @@
         <br>
         <span class="text-xl lg:text-3xl">Explore the campus, guess the places and win points!</span>
         <br><br>
+        <% if(user){ %>
+        <button class="redbtn text-2xl px-3 py-1 mb-10" onclick="window.location.href='/dashboard'">
+          PLAY NOW!
+        </button>
+        <% }else{ %>
         <button class="redbtn text-2xl px-3 py-1 mb-10" onclick="window.location.href='/LoginPage'">
           GET STARTED!
         </button>
+        <% } %>
+        
       </div>
       <div class="flex justify-center items-center">
       <img src="/Images/Rules.png"

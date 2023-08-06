@@ -1,21 +1,25 @@
 const mongoose = require('mongoose');
-
+require('mongoose-double')(mongoose);
+var SchemaTypes = mongoose.Schema.Types;
 const imageSchema = mongoose.Schema({
-    url: {
+    _id: {
+        type: Number,
+        required: true,
+        unique: true,
+    },
+    path:{
         type: String,
         required: true,
     },
-    location: {
-        type: String,
+    lat:{
+        type: SchemaTypes.Double,
         required: true,
+        default: 0,
     },
-    xcoordinate: {
-        type: Number,
+    long: {
+        type: SchemaTypes.Double,
         required: true,
-    },
-    ycoordinate: {
-        type: Number,
-        required: true,
+        default:0,
     },
     name : {
         type: String,
