@@ -119,11 +119,11 @@ function openLocationPicker2() {
 }
 
 function submitLocation(actualLat, actualLong) {
-  console.log(actualLat, actualLong);
-  console.log(typeof actualLat);
+  
+  
   const locationInput = document.getElementById("guessInput");
   coord = locationInput.innerHTML;
-  console.log(coord);
+  
   lat = parseFloat(coord.split(",")[0].trim());
   lng = parseFloat(coord.split(",")[1].trim());
   const distanceInKm = calculateDistance(actualLat, actualLong, lat, lng);
@@ -137,7 +137,7 @@ function submitLocation(actualLat, actualLong) {
     0
   );
   score = Math.round(score);
-  console.log(score);
+  
   // sendNotification();
   // alert("You scored " + score + " points.");
   if (score > 0) sendNotification("Congrats", score);

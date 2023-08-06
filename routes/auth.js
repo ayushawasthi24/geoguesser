@@ -12,7 +12,7 @@ const router = express.Router();
 passport.use(new GoogleStrategy({
   clientID:"372009373284-7rs18ab8cphslchjdacad0q7sh5ubl80.apps.googleusercontent.com",
   clientSecret:"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",
-  callbackURL: "http://localhost:3000/auth/google/callback",
+  callbackURL: "https://theprogrammingclubgeoguesser.onrender.com/auth/google/callback",
   passReqToCallback: true,
 },
 async function(request, accessToken, refreshToken, profile, done) {
@@ -60,7 +60,7 @@ const loginUser = async (email, password) => {
 
 router.post("/register", async (req, res) => {
   try {
-    console.log('register called')
+   
     const { name, email, password } = req.body;
     if (!email.endsWith("@iiti.ac.in")) {
       return res.status(400).json({
