@@ -21,7 +21,11 @@ const userSchema = mongoose.Schema({
   level: {
     type: Number,
     default: 1,
-  }
+  },
+  currentImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image", // Reference to the "Image" collectio
+  },
 });
 
 const User = mongoose.model("User", userSchema);
