@@ -18,7 +18,7 @@ This game is a simple web-based application developed using JavaScript. The obje
 
 ## Development
 This game was developed using Javascript, EJS, NodeJS, MongoDB
-The map interface was implemented using [Mapbox](https://www.mapbox.com/), a mapping platform.
+The map interface was implemented using Leaflet API.
 
 ## How to Play
 To play the game:
