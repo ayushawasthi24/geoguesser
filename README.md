@@ -23,6 +23,20 @@ The map interface was implemented using [Mapbox](https://www.mapbox.com/), a map
 ## How to Play
 To play the game:
 1. Clone this repository.
-2. Open the `index.html` file in a web browser.
-3. Follow the instructions on the screen to mark the location on the map.
+```
+git clone https://github.com/ayushawasthi24/geoguesser
+```
+2. Change the directory into this folder.
+```
+cd geoguesser
+```
+3. Install the packages.
+```
+npm i
+```
+4. Run the server on localhost.
+```
+npm start
+```
+6. Follow the instructions on the screen to mark the location on the map.
 
